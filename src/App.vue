@@ -3,17 +3,30 @@
     
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link> |
+      <router-link to="/default">Default</router-link> |
+      <router-link to="/list">List</router-link>
+      <!-- <router-link :to="{ path: '/about'}" replace>About</router-link> -->
     </div>
 
     <transition name="router-anim">
-      <router-view/>
+        <router-view></router-view>
     </transition>
 
   </div>
 </template>
 
 <style>
+
+  #nav a {
+    color: lightseagreen;
+    text-decoration: none;
+    font-size: 16px;
+  }
+
+  a.router-link-exact-active {
+    font-weight: bold;
+  }
 
   body {
     background: rgb(233, 233, 233);
@@ -29,7 +42,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    width: 50%;
+    width: 30%;
     padding: 30px;
     margin: 50px auto;
     height: calc(60% - 50px);
