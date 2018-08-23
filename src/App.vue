@@ -18,6 +18,10 @@
 
 <style>
 
+  #nav {
+    text-align: left;
+  }
+
   #nav a {
     color: lightseagreen;
     text-decoration: none;
