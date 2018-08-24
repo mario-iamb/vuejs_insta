@@ -46,7 +46,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    width: 30%;
+    width: 900px;
     padding: 30px;
     margin: 50px auto;
     height: calc(60% - 50px);

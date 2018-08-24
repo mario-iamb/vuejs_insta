@@ -2,15 +2,40 @@
     <div class="my-list page">
         <div class="current-users">
             <h2>Current users</h2>
-            <ul>
-                <li v-for='user in users' :key='user.id'>
-                    {{user.name}}<br> {{user.age}}<br> {{user.hobbies}}<br> {{user.hasCar}}
-                </li>
+
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th width="7%"></th>
+                        <th width="15%">Name</th>
+                        <th width="15%">Age</th>
+                        <th width="45%">Hobbies</th>
+                        <th width="18%">Has a car?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="user in users" :key="user.id">
+                        <td class="delete-user"><i v-on:click="deleteUser(user)" class="fas fa-eraser"></i></td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.age}}</td>
+                        <td>{{user.hobbies}}</td>
+                        <td>{{user.hasCar}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Filter by:</p>
+            <ul class="filters">
+                <li>swimming</li>
+                <li>flying</li>
+                <li class="active"><i class="fas fa-eraser"></i> traveling</li>
+                <li>technology</li>
+                <li>cycling</li>
             </ul>
         </div>
 
         <div class="add-users">
-            <h2>Add new user</h2>
+            <h2>Add a new user</h2>
             <p>Please fill the fields bellow</p>
 
             <form v-on:submit="addUser">
@@ -27,20 +52,16 @@
                 </div>
 
                 <div class="field">
-                    <p>Do you have a car?</p>
+                    <p>Has a car?</p>
 
                     <div class="switcher">
-                        <input type="radio" name="hasCar" v-bind:value="'No'" id="no" class="switcher__input switcher__input--yin" v-model="picked">
+                        <input type="radio" name="hasCar" v-bind:value="'No'" id="no" class="switcher__input switcher__input--yin" v-model="newUser.hasCar">
                         <label for="no" class="switcher__label">No</label>
                         
-                        <input type="radio" name="hasCar" v-bind:value="'Yes'" id="yes" class="switcher__input switcher__input--yang" v-model="picked">
+                        <input type="radio" name="hasCar" v-bind:value="'Yes'" id="yes" class="switcher__input switcher__input--yang" v-model="newUser.hasCar">
                         <label for="yes" class="switcher__label">Yes</label>
                         
                         <span class="switcher__toggle"></span>
-                    </div>
-
-                    <div class="new-div">
-                        <span>You picked: {{ picked }}</span>
                     </div>
                 </div>
 
@@ -59,9 +80,10 @@ export default {
 
     data() {
         return {
-            picked: 'No',
 
-            newUser: {},
+            newUser: {
+                hasCar: 'No'
+            },
             users: [
                 {
                     name: 'Romas',
@@ -104,13 +126,19 @@ export default {
                 name:this.newUser.name,
                 age:this.newUser.age,
                 hobbies:this.newUser.hobbies,
-                hasCar:this.newUser.hasCar,
+                hasCar:this.newUser.hasCar
             });
 
             // Clears input values after submit
-            this.newUser = '';
+            this.newUser.name = '';
+            this.newUser.age = '';
+            this.newUser.hobbies = '';
 
             e.preventDefault();
+        },
+        deleteUser:function(user){
+            var index = this.users.indexOf(user);
+            this.users.splice(index, 1);
         }
     }
 }
@@ -121,6 +149,7 @@ export default {
 
     .my-list {
         margin-top: 20px;
+        //border: 1px dotted red;
 
         h2 {
             color: lightseagreen;
@@ -132,25 +161,80 @@ export default {
         }
 
         .current-users {
-            width: 50%;
+            width: 65%;
             float: left;
 
-            ul {
+            p {
+                font-size: 13px;
+                font-weight: bold;
+                padding: 0;
+                margin: 50px 0 0 0;
+            }
+
+            ul.filters {
                 margin: 0;
                 padding: 0;
 
+                // li {
+                //     display: inline-block;
+                //     font-size: 12px;
+                //     background: lightseagreen;
+                //     color: white;
+                //     margin: 0 10px 10px 0;
+                //     padding: 2px 10px;
+                //     border-radius: 30px;    
+                // }
                 li {
-                    list-style-type:none;
-                    padding: 0 0 20px 0;
+                    display: inline-block;
+                    font-size: 13px;
+                    margin: 0 10px 10px 0;
+                    padding: 2px 0px;
+                    border-bottom: 1px dotted grey;
+                    //transition: all 0.2s ease-in;
+
+                    &.active {
+                        color: lightseagreen;
+                        border-bottom: none;
+                        
+                    }
+                }
+            }
+
+            table {
+                max-width: 450px;
+
+                th {
+                    font-size: 13px;
+                    padding-bottom: 5px;
+                }
+
+                td {
+                    font-size: 12px;
+                    border-bottom: 1px dotted gray;
+                    padding: 4px 0 4px 0;
+
+                    &.delete-user {
+                        i {
+                            color: lightseagreen;
+                            font-size: 13px;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                tr {
+                    &:last-child {
+                        td {
+                            border-bottom: none;
+                        }
+                    }
                 }
             }
         }
 
         .add-users {
-            width: 50%;
+            width: 35%;
             float: left;
-            padding: 0 0 0 40px;
-            box-sizing: border-box;
 
             p {
                 margin: -15px 0 20px 0;
@@ -167,15 +251,16 @@ export default {
                 }
 
                 input {
-                    width: 50%;
+                    width: 70%;
                     background: rgb(233, 233, 233);
-                    border: 1px dotted gray;
+                    border: none;
+                    border-bottom: 1px dotted gray;
                     font-size: 12px;
-                    padding: 5px 10px;
+                    padding: 5px 10px 5px 0;
                     outline: none;
 
                     &:focus {
-                        border: 1px dotted lightseagreen;
+                        border-bottom: 1px dotted lightseagreen;
                     }
 
                     &[type="submit"] {
