@@ -26,11 +26,16 @@
 
             <p>Filter by:</p>
             <ul class="filters">
+                <li>All</li>
                 <li>swimming</li>
                 <li>flying</li>
                 <li class="active"><i class="fas fa-eraser"></i> traveling</li>
                 <li>technology</li>
                 <li>cycling</li>
+            </ul>
+
+            <ul>
+                <li v-for="n in evenNumbers" :key="n.id">{{n}}</li>
             </ul>
         </div>
 
@@ -84,38 +89,53 @@ export default {
             newUser: {
                 hasCar: 'No'
             },
+            numbers: [
+                11, 26, 36, 41, 58
+            ],
             users: [
                 {
                     name: 'Romas',
-                    age: 'over 60',
+                    age: '60',
                     hobbies: 'flying, diving, cycling',
                     hasCar: 'Yes'
                 },
                 {
                     name: 'Mario',
-                    age: 'over 30',
+                    age: '30',
                     hobbies: 'swimming, traveling, cycling',
                     hasCar: 'No'
                 },
                 {
                     name: 'Andrew',
-                    age: 'over 30',
+                    age: '30',
                     hobbies: 'swimming, coding, drawing',
                     hasCar: 'Yes'
                 },
                 {
                     name: 'Ian',
-                    age: 'over 35',
+                    age: '35',
                     hobbies: 'swimming, traveling, cycling',
                     hasCar: 'No'
                 },
                 {
                     name: 'John',
-                    age: 'over 25',
+                    age: '25',
                     hobbies: 'cars, fashion, technology',
                     hasCar: 'Yes'
                 }
             ]
+        }
+    },
+    computed: {
+        // evenNumbers: function () {
+        //     return this.users.age.filter(function (number) {
+        //     return number % 2 === 0
+        //     })
+        // }
+        evenNumbers: function () {
+            return this.numbers.filter(function (number) {
+            return number % 2 === 0
+            })
         }
     },
     methods: {
