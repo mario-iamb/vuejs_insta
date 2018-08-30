@@ -14,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="user in users" :key="user.id">
+                    <tr v-for="user in userFilter" :key="user.id">
                         <td class="delete-user"><i v-on:click="deleteUser(user)" class="fas fa-eraser"></i></td>
                         <td>{{user.name}}</td>
                         <td>{{user.age}}</td>
@@ -24,19 +24,17 @@
                 </tbody>
             </table>
 
-            <p>Filter by:</p>
+            <p>Filter by age:</p>
+
+            <!-- <button type="button" v-on:click="userFilterKey = 'all'" :class="{ active: userFilterKey == 'all' }">Show All</button>
+            <button type="button" v-on:click="userFilterKey = 'nearby'" :class="{ active: userFilterKey == 'nearby' }">Less or equal 30</button> -->
+
             <ul class="filters">
-                <li>All</li>
-                <li>swimming</li>
-                <li>flying</li>
-                <li class="active"><i class="fas fa-eraser"></i> traveling</li>
-                <li>technology</li>
-                <li>cycling</li>
+                <li v-on:click="userFilterKey = 'all'" :class="{ active: userFilterKey == 'all' }">All</li>
+                <li v-on:click="userFilterKey = 'below30'" :class="{ active: userFilterKey == 'below30' }">below 30</li>
+                <li v-on:click="userFilterKey = 'over60'" :class="{ active: userFilterKey == 'over60' }">over 60</li>
             </ul>
 
-            <ul>
-                <li v-for="n in evenNumbers" :key="n.id">{{n}}</li>
-            </ul>
         </div>
 
         <div class="add-users">
@@ -89,9 +87,13 @@ export default {
             newUser: {
                 hasCar: 'No'
             },
+            
             numbers: [
                 11, 26, 36, 41, 58
             ],
+
+            userFilterKey: 'all',
+            
             users: [
                 {
                     name: 'Romas',
@@ -127,16 +129,27 @@ export default {
         }
     },
     computed: {
+
+        userFilter() {
+            return this[this.userFilterKey]
+        },
+
+        all() {
+            return this.users
+        },
+
+        below30() {
+            return this.users.filter((user) => user.age <= 30)
+        },
+        over60() {
+            return this.users.filter((user) => user.age >= 60)
+        }
+
         // evenNumbers: function () {
-        //     return this.users.age.filter(function (number) {
-        //     return number % 2 === 0
+        //     return this.numbers.filter(function (number) {
+        //         return number % 2 === 0
         //     })
         // }
-        evenNumbers: function () {
-            return this.numbers.filter(function (number) {
-            return number % 2 === 0
-            })
-        }
     },
     methods: {
         addUser: function(e) {
@@ -210,7 +223,7 @@ export default {
                     margin: 0 10px 10px 0;
                     padding: 2px 0px;
                     border-bottom: 1px dotted grey;
-                    //transition: all 0.2s ease-in;
+                    cursor: pointer;
 
                     &.active {
                         color: lightseagreen;
@@ -249,6 +262,10 @@ export default {
                         }
                     }
                 }
+            }
+
+            button.active {
+                color: red;
             }
         }
 
