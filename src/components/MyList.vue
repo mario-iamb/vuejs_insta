@@ -154,7 +154,7 @@ export default {
     methods: {
         addUser: function(e) {
 
-            // pushes newly reated 'newUser' into 'users' array
+            // pushes newly created 'newUser' into 'users' array
             this.users.unshift({
                 name:this.newUser.name,
                 age:this.newUser.age,
